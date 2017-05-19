@@ -1,5 +1,6 @@
 #Data reading as vector
 serie<-scan("data/product-GuardoToIto.dat")
+serie = serie/max(serie)
 
 
 ###### Temporal serie analysis #######
@@ -7,7 +8,7 @@ serie<-scan("data/product-GuardoToIto.dat")
 require(tseries)
 
 #create specific object, and show basics
-plot.ts(serie)
+plot.ts(serie, col="blue")
 plot(decompose(ts(serie, frequency=12)))
 
 #divide serie into train and test
@@ -31,9 +32,9 @@ tendTs = parameters$coefficients[1]+timeTs*parameters$coefficients[2]
 
 #show result
 plot.ts(serieTr, xlim=c(1, timeTs[length(timeTs)]))
-lines(timeTr, tendTr, col="blue")
-lines(timeTs, serieTs, col="red")
-lines(timeTs, tendTs, col="green")
+lines(timeTr, tendTr, col="red")
+lines(timeTs, serieTs, col="blue")
+lines(timeTs, tendTs, col="red")
 
 #check linear theory, data normality
 jarque.bera.test(parameters$residuals)
@@ -62,7 +63,7 @@ for (k in 3:5) {
 
 #serie without tendency - filter
 serieFilT = serie - SerFil
-plot.ts(serieFilT)
+plot.ts(serieFilT, col="blue")
 
 
 #******** Conclusion
@@ -176,7 +177,7 @@ jarque.bera.test(model.H3$residuals)
 shapiro.test(model.H3$residuals)
 
 #histogram and density function
-hist(model.H3$residuals, col="blue", prob=T, ylim=c(0,8), xlim=c(-0.4,0.4))
+hist(model.H3$residuals, col="blue", prob=T, ylim=c(0,6), xlim=c(-0.4,0.4))
 lines(density(model.H3$residuals), col="red")
 
 
